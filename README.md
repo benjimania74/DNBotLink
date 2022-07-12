@@ -1,4 +1,4 @@
-# DNApiTests Bugs
+# Bugs DreamNetwork API (pour Addons)
 Voici differents bugs du DreamNetwork API
 
 ### Possibilité remplacement commande `service`
