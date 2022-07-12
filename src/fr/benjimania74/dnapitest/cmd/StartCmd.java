@@ -14,6 +14,11 @@ public class StartCmd extends Command {
                 return true;
             }
 
+            if(Main.clientAPI.getClientManager().getClients().containsKey(args[1])){
+                System.out.println("This Server is already Launched");
+                return true;
+            }
+
             if(Main.clientAPI.getContainer().getJVMExecutorsServers().containsKey(args[1])){
                 Main.clientAPI.getContainer().getJVMExecutor(args[1], IContainer.JVMType.SERVER).startServer();
             }else{
