@@ -5,7 +5,7 @@ import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
 import fr.benjimania74.dnapitest.cmd.ClientsCmd;
 import fr.benjimania74.dnapitest.cmd.HelloCmd;
-import fr.benjimania74.dnapitest.cmd.StartCmd;
+import fr.benjimania74.dnapitest.cmd.ServerCmd;
 
 public class Main extends DreamExtension {
     public static DNClientAPI clientAPI;
@@ -21,7 +21,7 @@ public class Main extends DreamExtension {
         super.start();
         clientAPI = DNClientAPI.getInstance();
         clientAPI.getCommandReader().getCommands().addCommands(new HelloCmd("hello"));
-        clientAPI.getCommandReader().getCommands().addCommands(new StartCmd("server"));
+        clientAPI.getCommandReader().getCommands().addCommands(new ServerCmd("server"));
         clientAPI.getCommandReader().getCommands().addCommands(new ClientsCmd("clients"));
 
         System.out.println("[" + getAddon().getDreamyName() + "] The Plugin is Started");
