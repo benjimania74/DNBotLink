@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="dnapitest:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/dnapitest_jar</output-path>
+    <root id="archive" name="dnapitest.jar">
+      <element id="module-output" name="dnapitest" />
+      <element id="library" level="project" name="lombok" />
+    </root>
+  </artifact>
+</component>
