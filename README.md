@@ -34,4 +34,16 @@ Voici differents bugs du DreamNetwork API
 > });
 > ```
 >
+> Résulat:
 > ![image](https://user-images.githubusercontent.com/48529276/178577723-d2d608a3-2501-4cad-932f-122bb6a90bca.png)
+
+### `getDnClientAPI()` ne fonctionne pas
+> Si l'on utilise la fonction `getDnClientAPI()` dans la class principal de notre Addon (qui extends de DreamExtension), on obtient un NullPointerExeption lors du lancement du DN
+>
+> Code (dans la fonction start):
+> ```java
+> DNClientAPI clientAPI = getDnClientAPI()
+> ```
+>
+> Résultat:
+> ![image](https://user-images.githubusercontent.com/48529276/178592620-3a078066-9e65-4dae-9f6c-a95be40cc275.png)
