@@ -5,16 +5,24 @@ import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import fr.benjimania74.dnapitest.bot.BotMain;
 import fr.benjimania74.dnapitest.registers.CommandsRegister;
 import fr.benjimania74.dnapitest.registers.ListenerRegister;
+import fr.benjimania74.dnapitest.utils.FilesManager;
 
 public class Main extends DreamExtension {
     public static DNClientAPI clientAPI;
+    public static String addonName;
 
     @Override
     public void onLoad() {
         super.onLoad();
-        Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
+        addonName = getAddon().getDreamyName();
+        new FilesManager();
+        if(!new BotMain().create()){
+            //stop();
+        }
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
     }
 
     @Override
@@ -23,20 +31,20 @@ public class Main extends DreamExtension {
         clientAPI = DNClientAPI.getInstance();
         if(!CommandsRegister.register(clientAPI)){
             Console.print(Colors.RED + "The Plugin is stopping");
-            this.stop();
+            //this.stop();
         }
         if(!ListenerRegister.register(clientAPI)){
             Console.print(Colors.RED + "The Plugin is stopping");
-            this.stop();
+            //this.stop();
         }
 
-        Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
     }
 
     @Override
     public void stop() {
         super.stop();
-        Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Stopped");
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Stopped");
     }
 
     public Main(Addon addon){

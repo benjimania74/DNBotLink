@@ -7,7 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lombok" level="project" />
     <orderEntry type="library" name="DreamNetwork-api" level="project" />
+    <orderEntry type="library" name="lombok" level="project" />
+    <orderEntry type="library" name="JDA-5.0.0-alpha.16-withDependencies" level="project" />
   </component>
 </module>

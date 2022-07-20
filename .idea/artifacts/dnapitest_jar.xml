@@ -3,7 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/dnapitest_jar</output-path>
     <root id="archive" name="dnapitest.jar">
       <element id="module-output" name="dnapitest" />
-      <element id="library" level="project" name="lombok" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lombok.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/JDA-5.0.0-alpha.16-withDependencies.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
