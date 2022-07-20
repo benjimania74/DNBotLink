@@ -5,8 +5,8 @@ import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
-import fr.benjimania74.dnapitest.cmd.ClientsCmd;
-import fr.benjimania74.dnapitest.cmd.ServerCmd;
+import fr.benjimania74.dnapitest.registers.CommandsRegister;
+import fr.benjimania74.dnapitest.registers.ListenerRegister;
 
 public class Main extends DreamExtension {
     public static DNClientAPI clientAPI;
@@ -21,8 +21,14 @@ public class Main extends DreamExtension {
     public void start() {
         super.start();
         clientAPI = DNClientAPI.getInstance();
-        clientAPI.getCommandReader().getCommands().addCommands(new ServerCmd("server"));
-        clientAPI.getCommandReader().getCommands().addCommands(new ClientsCmd("clients"));
+        if(!CommandsRegister.register(clientAPI)){
+            Console.print(Colors.RED + "The Plugin is stopping");
+            this.stop();
+        }
+        if(!ListenerRegister.register(clientAPI)){
+            Console.print(Colors.RED + "The Plugin is stopping");
+            this.stop();
+        }
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
     }
