@@ -3,8 +3,9 @@ package fr.benjimania74.dnapitest;
 import be.alexandre01.dreamnetwork.api.DNClientAPI;
 import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
+import be.alexandre01.dreamnetwork.client.console.Console;
+import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnapitest.cmd.ClientsCmd;
-import fr.benjimania74.dnapitest.cmd.HelloCmd;
 import fr.benjimania74.dnapitest.cmd.ServerCmd;
 
 public class Main extends DreamExtension {
@@ -13,24 +14,23 @@ public class Main extends DreamExtension {
     @Override
     public void onLoad() {
         super.onLoad();
-        System.out.println("[" + getAddon().getDreamyName() + "] The Plugin is Loaded");
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
     }
 
     @Override
     public void start() {
         super.start();
         clientAPI = DNClientAPI.getInstance();
-        clientAPI.getCommandReader().getCommands().addCommands(new HelloCmd("hello"));
         clientAPI.getCommandReader().getCommands().addCommands(new ServerCmd("server"));
         clientAPI.getCommandReader().getCommands().addCommands(new ClientsCmd("clients"));
 
-        System.out.println("[" + getAddon().getDreamyName() + "] The Plugin is Started");
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
     }
 
     @Override
     public void stop() {
         super.stop();
-        System.out.println("[" + getAddon().getDreamyName() + "] The Plugin is Stopped");
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + getAddon().getDreamyName() + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Stopped");
     }
 
     public Main(Addon addon){
