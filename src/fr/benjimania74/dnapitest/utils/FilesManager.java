@@ -5,6 +5,8 @@ import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnapitest.Main;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,7 +16,7 @@ public class FilesManager {
     private static FilesManager instance;
     public static FilesManager getInstance(){return instance;}
 
-    private String[] configFiles = {"token", "services"};
+    private String[] configFiles = {"token", "config"};
     protected String jar = FilesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath().substring(1);
     public Path addonPath = Paths.get(jar.replace("/" + jar.substring(jar.lastIndexOf("/") + 1), "") + "/" + Main.addonName);
 
@@ -31,6 +33,8 @@ public class FilesManager {
                 }
             }
         }
+
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + " INFO" + Colors.YELLOW + "] " + Colors.GREEN + "The Bot's Token can be changed in '" + addonPath + "\\token' file");
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + Colors.YELLOW + "] " + Colors.CYAN + "Plugin's Files are loaded");
         instance = this;
@@ -49,5 +53,12 @@ public class FilesManager {
             e.printStackTrace();
         }
         return returnedString;
+    }
+
+    public void write(String fileName, String content) throws IOException {
+        FileWriter fw  = new FileWriter(addonPath + "/" + fileName);
+        fw.write(content);
+        fw.flush();
+        fw.close();
     }
 }
