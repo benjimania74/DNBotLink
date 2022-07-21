@@ -4,7 +4,10 @@ import be.alexandre01.dreamnetwork.api.commands.Command;
 import be.alexandre01.dreamnetwork.api.connection.core.communication.IClient;
 import be.alexandre01.dreamnetwork.api.connection.core.communication.IClientManager;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
+import be.alexandre01.dreamnetwork.client.console.Console;
+import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnapitest.Main;
+import fr.benjimania74.dnapitest.utils.ServicesStarter;
 
 public class ServerCmd extends Command {
     public ServerCmd(String name) {
@@ -12,20 +15,20 @@ public class ServerCmd extends Command {
 
         addSubCommand("start", args -> {
             if(args.length == 1){
-                System.out.println("Commande invalide !");
+                Console.print(Colors.RED + "Invalid Command");
                 return true;
             }
 
-            if(Main.clientAPI.getClientManager().getClients().containsKey(args[1])){
-                System.out.println("This Server is already Running");
-                return true;
+            for(IClient client : Main.clients){
+                if(client.getJvmService().getJvmExecutor().getName().equals(args[1])){
+                    Console.print(Colors.RED + "This Service is already Running");
+                    return true;
+                }
             }
 
-            if(Main.clientAPI.getContainer().getJVMExecutorsServers().containsKey(args[1])){
-                Main.clientAPI.getContainer().getJVMExecutor(args[1], IContainer.JVMType.SERVER).startServer();
-            }else{
-                System.out.println("The Server does't exist");
-            }
+            String[] serviceI;
+            if(args.length == 2){ serviceI = new String[]{args[1]}; }else{ serviceI = new String[]{args[1], args[2]}; }
+            new ServicesStarter().startD(serviceI);
             return true;
         });
 

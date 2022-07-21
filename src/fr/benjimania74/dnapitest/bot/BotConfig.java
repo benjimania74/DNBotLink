@@ -23,6 +23,10 @@ public class BotConfig {
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}
 
+    private String prefix = "d!";
+    public String getPrefix() {return prefix;}
+    public void setPrefix(String prefix) {this.prefix = prefix;}
+
     private HashMap<String, String> links = new HashMap<>();
     public HashMap<String, String> getLinks() {return links;}
     public void setLinks(HashMap<String, String> links) {this.links = links;}
@@ -32,6 +36,7 @@ public class BotConfig {
             object = (JSONObject) new JSONParser().parse(new String(Base64.getDecoder().decode(FilesManager.getInstance().read("config"))));
             setActivity((String) object.get("activity"));
             setStatus((String) object.get("status"));
+            setPrefix((String) object.get("prefix"));
 
             JSONObject connectionsList = (JSONObject) object.get("link");
             HashMap<String, String> list = new HashMap<>();
@@ -50,10 +55,11 @@ public class BotConfig {
         instance = this;
     }
 
-    public boolean save(){
+    public void save(){
         try {
             object.put("activity", getActivity());
             object.put("status", getStatus());
+            object.put("prefix", getPrefix());
 
             JSONObject list = new JSONObject();
             getLinks().forEach((key, value) -> {
@@ -62,15 +68,11 @@ public class BotConfig {
 
             object.put("link", list);
 
-            System.out.println(object);
-
             FilesManager.getInstance().write("config", Base64.getEncoder().encodeToString(object.toJSONString().getBytes()));
 
             Console.print(Colors.GREEN + "The Configuration File has been saved");
-            return true;
         }catch (Exception e){
             Console.print(Colors.RED + "Can't save the Configuration File");
-            return false;
         }
     }
 }

@@ -16,7 +16,7 @@ public class ClientsCmd extends Command {
                 System.out.println("There's no Servers and Proxy Running on the Network");
                 return true;
             }
-            for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+            for(IClient client : clients){
                 System.out.println(client.getJvmType() + " - " + client.getJvmService().getJvmExecutor().getName());
             }
             return true;

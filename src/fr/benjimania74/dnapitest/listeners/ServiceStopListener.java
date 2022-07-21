@@ -6,12 +6,10 @@ import be.alexandre01.dreamnetwork.api.events.list.services.CoreServiceStartEven
 import be.alexandre01.dreamnetwork.api.service.IService;
 import fr.benjimania74.dnapitest.Main;
 
-public class ServiceStartListener extends Listener {
+public class ServiceStopListener extends Listener {
     @EventCatcher
-    public void onServiceStart(CoreServiceStartEvent event){
+    public void onServiceStop(CoreServiceStartEvent event){
         IService service = event.getService();
-        if(!Main.clients.contains(service.getClient())){
-            Main.clients.add(service.getClient());
-        }
+        Main.clients.remove(service.getClient());
     }
 }
