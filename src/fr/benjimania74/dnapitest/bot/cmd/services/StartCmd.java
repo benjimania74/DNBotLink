@@ -5,7 +5,6 @@ import fr.benjimania74.dnapitest.bot.BotMain;
 import fr.benjimania74.dnapitest.bot.cmd.Command;
 import fr.benjimania74.dnapitest.utils.ServicesStarter;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 

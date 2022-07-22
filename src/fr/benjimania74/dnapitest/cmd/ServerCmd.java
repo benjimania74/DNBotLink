@@ -8,6 +8,7 @@ import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnapitest.Main;
 import fr.benjimania74.dnapitest.utils.ServicesStarter;
+import fr.benjimania74.dnapitest.utils.ServicesStopper;
 
 public class ServerCmd extends Command {
     public ServerCmd(String name) {
@@ -19,10 +20,12 @@ public class ServerCmd extends Command {
                 return true;
             }
 
-            for(IClient client : Main.clients){
-                if(client.getJvmService().getJvmExecutor().getName().equals(args[1])){
-                    Console.print(Colors.RED + "This Service is already Running");
-                    return true;
+            if(!Main.clientAPI.getClientManager().getClients().isEmpty()){
+                for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+                    if(client.getJvmService().getJvmExecutor().getName().equals(args[1])){
+                        Console.print(Colors.RED + "This Service is already Running");
+                        return true;
+                    }
                 }
             }
 
@@ -34,29 +37,30 @@ public class ServerCmd extends Command {
 
         addSubCommand("stop", args -> {
             if(args.length == 1){
-                System.out.println("Commande invalide !");
+                Console.print(Colors.RED + "Invalid Command");
                 return true;
             }
 
-            IClientManager clientManager = Main.clientAPI.getClientManager();
-            System.out.println(clientManager.getClients());
-            if(!clientManager.getClients().containsKey(args[1])){
-                System.out.println("The Server is not Running for the moment");
-                return true;
-            }
-            IClient client = clientManager.getClient(args[1]);
-            if(client.getJvmType() != IContainer.JVMType.SERVER){
-                System.out.println(args[1] + " is not a Server but a Proxy");
+            if(Main.clientAPI.getClientManager().getClients().isEmpty()){
+                Console.print(Colors.RED + "There's no Services Running");
                 return true;
             }
 
-            clientManager.getClient(args[1]).getJvmService().stop();
-            System.out.println("The Server has been Successfully Stopped");
-            clientManager.getClients().remove(args[1]);
+            for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+                if(!client.getJvmService().getJvmExecutor().getName().equals(args[1])){
+                    Console.print(Colors.RED + "This Service is not Running");
+                    return true;
+                }
+            }
+
+            String[] serviceI;
+            if(args.length == 2){ serviceI = new String[]{args[1]}; }else{ serviceI = new String[]{args[1], args[2]}; }
+            new ServicesStopper().stopD(serviceI);
             return true;
         });
 
         getHelpBuilder().setTitleUsage("Server Command");
-        getHelpBuilder().setCmdUsage("Launch a server","start", "<server name>");
+        getHelpBuilder().setCmdUsage("Launch a server","start", "<service name> [<proxy | server>]");
+        getHelpBuilder().setCmdUsage("Launch a server","stop", "<service name> [<proxy | server>]");
     }
 }

@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="DreamNetwork-api" level="project" />
     <orderEntry type="library" name="lombok" level="project" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="JDA-4.4.0_350-withDependencies" level="project" />
+    <orderEntry type="library" name="DreamNetworkV2-1.10.0-SNAPSHOT-api" level="project" />
   </component>
 </module>

@@ -28,14 +28,14 @@ public class BotMain {
             new BotConfig();
 
             String token = FilesManager.getInstance().read("token");
-            new CommandsRegister().register();
 
             JDABuilder builder = JDABuilder.createDefault(token)
                     .enableIntents(GatewayIntent.GUILD_MESSAGES)
                     .setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()))
-                    .setActivity(Activity.playing(BotConfig.getInstance().getActivity()));
+                    .setActivity(Activity.playing(BotConfig.getInstance().getActivity() + " | Type " + BotConfig.getInstance().getPrefix() + "help"));
 
             jda = builder.build();
+            new CommandsRegister().register();
             jda.addEventListener(new MessageListener());
 
             Console.print(Colors.GREEN_BACKGROUND + "The Bot is started");
@@ -52,4 +52,5 @@ public class BotMain {
         commandsList.addAll(Arrays.asList(commands));
     }
     public void unregisterCommand(Command command){commandsList.remove(command);}
+    public List<Command> getCommands(){return commandsList;}
 }

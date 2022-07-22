@@ -30,6 +30,7 @@ public class BotConfig {
     private HashMap<String, String> links = new HashMap<>();
     public HashMap<String, String> getLinks() {return links;}
     public void setLinks(HashMap<String, String> links) {this.links = links;}
+    public void addLink(String serviceName, String discordChannel){links.put(serviceName, discordChannel); save();}
 
     public BotConfig(){
         try {
@@ -41,7 +42,6 @@ public class BotConfig {
             JSONObject connectionsList = (JSONObject) object.get("link");
             HashMap<String, String> list = new HashMap<>();
             connectionsList.forEach((key, value) -> {
-                System.out.println(key + " " + value);
                 list.put((String) key, (String) value);
             });
 
@@ -75,4 +75,6 @@ public class BotConfig {
             Console.print(Colors.RED + "Can't save the Configuration File");
         }
     }
+
+    public void reload(){new BotConfig();}
 }

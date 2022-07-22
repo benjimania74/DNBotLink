@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class ServicesStarter {
+public class ServicesStopper {
     private final IContainer container = Main.clientAPI.getContainer();
     private String serviceName = "";
 
-    public void startD(String @NotNull [] serviceI){
+    public void stopD(String @NotNull [] serviceI){
         serviceName = serviceI[0];
 
         if(serviceI.length == 1){
@@ -25,21 +25,26 @@ public class ServicesStarter {
                 Console.print(Colors.RED + serviceName + " is not a Service");
                 return;
             }
-            container.getJVMExecutor(serviceName, Services.getType(serviceName)).startServer();
+
+            container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).stop();
+            container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).removeService();
+            Console.print(Colors.GREEN + "Service '" + serviceName + "' stopped");
             return;
         }
 
         if(serviceI[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).startServer();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).stop();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).removeService();
                 return;
             }
             Console.print(Colors.RED + serviceName + " is not a Server");
             return;
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
-            if(container.getJVMExecutorsProxy().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).startServer();
+            if(container.getJVMExecutorsProxy().containsKey(serviceI[0])){
+                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).stop();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).removeService();
                 return;
             }
             Console.print(Colors.RED + serviceName + " is not a Proxy");
@@ -49,13 +54,13 @@ public class ServicesStarter {
         Console.print(Colors.RED + "This Service doesn't exists");
     }
 
-    public EmbedBuilder startB(String @NotNull [] serviceI){
+    public EmbedBuilder stopB(String @NotNull [] serviceI){
         serviceName = serviceI[0];
 
         EmbedBuilder successEmbed = new EmbedBuilder()
                 .setColor(Color.GREEN)
-                .setTitle("'" + serviceName + "' Service is Starting...")
-                .setDescription("The service '" + serviceName + "' is now Starting");
+                .setTitle("'" + serviceName + "' Service is Stopping...")
+                .setDescription("The service '" + serviceName + "' is now Stopping");
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){
@@ -71,13 +76,15 @@ public class ServicesStarter {
                         .setTitle("Inexistant Service")
                         .setDescription(serviceName + " is not a Service");
             }
-            container.getJVMExecutor(serviceName, Services.getType(serviceName)).startServer();
+            container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).stop();
+            container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).removeService();
             return successEmbed;
         }
 
         if(serviceI[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).startServer();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).stop();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).removeService();
                 return successEmbed;
             }
             return new EmbedBuilder()
@@ -88,7 +95,8 @@ public class ServicesStarter {
 
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(container.getJVMExecutorsProxy().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).startServer();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).stop();
+                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).removeService();
                 return successEmbed;
             }
             return new EmbedBuilder()
