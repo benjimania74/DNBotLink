@@ -4,7 +4,7 @@ import be.alexandre01.dreamnetwork.api.service.IContainer;
 import fr.benjimania74.dnbotlink.Main;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
-import fr.benjimania74.dnbotlink.bot.ExecuteServerCmd;
+import fr.benjimania74.dnbotlink.bot.utils.ExecuteServerCmd;
 import fr.benjimania74.dnbotlink.utils.Services;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -24,17 +24,15 @@ public class MessageListener extends ListenerAdapter {
 
         BotConfig.getInstance().getLinks().forEach((service, id) -> {
             String name = service;
-            IContainer.JVMType type = Services.getType(service);
 
             if(service.split("<&>").length == 2){
                 String[] args = service.split("<&>");
                 name = args[0];
-                if(args[1].equalsIgnoreCase("server")){ type = IContainer.JVMType.SERVER; }
-                if(args[1].equalsIgnoreCase("proxy")){ type = IContainer.JVMType.PROXY; }
+                if(args[1].equalsIgnoreCase("proxy")){ return; }
             }
 
             if(id.equals(event.getChannel().getId())){
-                new ExecuteServerCmd().execute(event.getMessage().getContentRaw(), name, type);
+                new ExecuteServerCmd().execute(event.getMessage().getContentRaw(), name);
             }
         });
 

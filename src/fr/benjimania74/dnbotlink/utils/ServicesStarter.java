@@ -56,6 +56,10 @@ public class ServicesStarter {
                 .setColor(Color.GREEN)
                 .setTitle("'" + serviceName + "' Service is Starting...")
                 .setDescription("The service '" + serviceName + "' is now Starting");
+        EmbedBuilder alreadyRunning = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Already Running")
+                .setDescription("'" + serviceName + "'Service is Already Running");
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){
@@ -71,11 +75,15 @@ public class ServicesStarter {
                         .setTitle("Inexistant Service")
                         .setDescription(serviceName + " is not a Service");
             }
+
+            if(Services.isLaunched(serviceName)){ return alreadyRunning; }
+
             container.getJVMExecutor(serviceName, Services.getType(serviceName)).startServer();
             return successEmbed;
         }
 
         if(serviceI[1].equalsIgnoreCase("server")){
+            if(Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return alreadyRunning; }
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
                 container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).startServer();
                 return successEmbed;
@@ -87,6 +95,7 @@ public class ServicesStarter {
         }
 
         if(serviceI[1].equalsIgnoreCase("proxy")){
+            if(Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return alreadyRunning; }
             if(container.getJVMExecutorsProxy().containsKey(serviceName)){
                 container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).startServer();
                 return successEmbed;

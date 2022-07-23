@@ -4,6 +4,7 @@ import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
 import fr.benjimania74.dnbotlink.bot.listeners.MessageListener;
+import fr.benjimania74.dnbotlink.bot.utils.CommandsRegister;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

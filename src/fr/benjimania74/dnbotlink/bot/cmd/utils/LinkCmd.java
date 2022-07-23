@@ -2,6 +2,8 @@ package fr.benjimania74.dnbotlink.bot.cmd.utils;
 
 import be.alexandre01.dreamnetwork.api.DNClientAPI;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
+import be.alexandre01.dreamnetwork.client.console.Console;
+import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
@@ -71,6 +73,7 @@ public class LinkCmd extends Command {
 
             BotConfig.getInstance().addLink(args[0], channel.getId());
             channel.sendMessageEmbeds(successEmbed).queue();
+            Console.print(Colors.GREEN + channel.getName() + " is now linked with " + args[0] + " (" + Services.getType(args[0]) + ")");
             return;
         }
 
@@ -80,6 +83,7 @@ public class LinkCmd extends Command {
             if(container.getJVMExecutorsServers().containsKey(args[0])){
                 BotConfig.getInstance().addLink(args[0] + "<&>server", channel.getId());
                 channel.sendMessageEmbeds(successEmbed).queue();
+                Console.print(Colors.GREEN + channel.getName() + " is now linked with " + args[0] + " (SERVER)");
                 return;
             }
 
@@ -97,6 +101,7 @@ public class LinkCmd extends Command {
             if(container.getJVMExecutorsProxy().containsKey(args[0])){
                 BotConfig.getInstance().addLink(args[0] + "<&>proxy", channel.getId());
                 channel.sendMessageEmbeds(successEmbed).queue();
+                Console.print(Colors.GREEN + channel.getName() + " is now linked with " + args[0] + " (PROXY)");
                 return;
             }
             channel.sendMessageEmbeds(new EmbedBuilder()

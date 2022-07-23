@@ -71,6 +71,7 @@ public class BotConfig {
             FilesManager.getInstance().write("config", Base64.getEncoder().encodeToString(object.toJSONString().getBytes()));
 
             Console.print(Colors.GREEN + "The Configuration File has been saved");
+            new BotConfig();
         }catch (Exception e){
             Console.print(Colors.RED + "Can't save the Configuration File");
         }

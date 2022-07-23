@@ -1,5 +1,6 @@
-package fr.benjimania74.dnbotlink.bot;
+package fr.benjimania74.dnbotlink.bot.utils;
 
+import fr.benjimania74.dnbotlink.bot.BotMain;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 

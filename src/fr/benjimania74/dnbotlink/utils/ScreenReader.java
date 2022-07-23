@@ -2,7 +2,7 @@ package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.client.console.Console;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
-import fr.benjimania74.dnbotlink.bot.SendMessage;
+import fr.benjimania74.dnbotlink.bot.utils.SendMessage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 public class ScreenReader extends Thread {
     private final Process process;
     private final String serviceName;
-    private StringBuilder datas = new StringBuilder();
+    private final StringBuilder datas = new StringBuilder();
     private boolean isRunning = true;
-    private InputStream reader;
+    private final InputStream reader;
 
     public ScreenReader(Process process, String serviceName){
         this.process = process;
@@ -64,7 +64,7 @@ public class ScreenReader extends Thread {
                 }
 
             }
-        },5,5, TimeUnit.MILLISECONDS);
+        },20,20, TimeUnit.MILLISECONDS);
         try {
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             ReadableByteChannel channel = Channels.newChannel(reader);

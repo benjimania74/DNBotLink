@@ -26,6 +26,8 @@ public class ServicesStopper {
                 return;
             }
 
+            if(!Services.isLaunched(serviceName)){Console.print(Colors.RED + "This service is not Running");return;}
+
             container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).stop();
             container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).removeService();
             Console.print(Colors.GREEN + "Service '" + serviceName + "' stopped");
@@ -34,6 +36,7 @@ public class ServicesStopper {
 
         if(serviceI[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
+                if(!Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){Console.print(Colors.RED + "This service is not Running");return;}
                 container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).stop();
                 container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).removeService();
                 return;
@@ -43,6 +46,7 @@ public class ServicesStopper {
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(container.getJVMExecutorsProxy().containsKey(serviceI[0])){
+                if(!Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){Console.print(Colors.RED + "This service is not Running");return;}
                 container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).stop();
                 container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).removeService();
                 return;
@@ -61,6 +65,10 @@ public class ServicesStopper {
                 .setColor(Color.GREEN)
                 .setTitle("'" + serviceName + "' Service is Stopping...")
                 .setDescription("The service '" + serviceName + "' is now Stopping");
+        EmbedBuilder notRunning = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Not Running")
+                .setDescription("'" + serviceName + "' Service is not Running");
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){
@@ -76,6 +84,9 @@ public class ServicesStopper {
                         .setTitle("Inexistant Service")
                         .setDescription(serviceName + " is not a Service");
             }
+
+            if(!Services.isLaunched(serviceName)){return notRunning;}
+
             container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).stop();
             container.getJVMExecutor(serviceName, Services.getType(serviceName)).getService(0).removeService();
             return successEmbed;
@@ -83,6 +94,7 @@ public class ServicesStopper {
 
         if(serviceI[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
+                if(!Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return notRunning;}
                 container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).stop();
                 container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).getService(0).removeService();
                 return successEmbed;
@@ -95,6 +107,7 @@ public class ServicesStopper {
 
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(container.getJVMExecutorsProxy().containsKey(serviceName)){
+                if(!Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return notRunning;}
                 container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).stop();
                 container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).getService(0).removeService();
                 return successEmbed;
