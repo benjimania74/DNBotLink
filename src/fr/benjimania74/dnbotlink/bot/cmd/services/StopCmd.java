@@ -18,7 +18,7 @@ public class StopCmd extends Command {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Invalid Command")
-                .setDescription("Usage: " + getPrefix() + getName() + " <service name to stop> [<server | proxy>]")
+                .setDescription("Usage: " + getPrefix() + getName() + " <service> [<server | proxy>] | " + getPrefix() + getName() + " allservices")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl());
 
         String args[];

@@ -19,7 +19,7 @@ public class StartCmd extends Command {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Invalid Command")
-                .setDescription("Usage: " + getPrefix() + getName() + " <service name to start> [<server | proxy>]")
+                .setDescription("Usage: " + getPrefix() + getName() + " <service> [<server | proxy>]")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl());
 
         String args[];

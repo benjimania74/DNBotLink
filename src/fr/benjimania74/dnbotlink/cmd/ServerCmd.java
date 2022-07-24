@@ -58,7 +58,7 @@ public class ServerCmd extends Command {
         });
 
         getHelpBuilder().setTitleUsage("Server Command");
-        getHelpBuilder().setCmdUsage("Launch a server","start", "<service name> [<proxy | server>]");
-        getHelpBuilder().setCmdUsage("Launch a server","stop", "<service name> [<proxy | server>]");
+        getHelpBuilder().setCmdUsage("Launch a server","start", "<service> [<proxy | server>]");
+        getHelpBuilder().setCmdUsage("Launch a server","stop", "<service> [<proxy | server>]");
     }
 }

@@ -1,5 +1,6 @@
 package fr.benjimania74.dnbotlink.utils;
 
+import be.alexandre01.dreamnetwork.api.connection.core.communication.IClient;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
@@ -15,6 +16,14 @@ public class ServicesStopper {
 
     public void stopD(String @NotNull [] serviceI){
         serviceName = serviceI[0];
+
+        if(serviceName.equalsIgnoreCase("allservices")){
+            for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+                client.getJvmService().stop();
+                client.getJvmService().removeService();
+            }
+            return;
+        }
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){
@@ -69,6 +78,17 @@ public class ServicesStopper {
                 .setColor(Color.RED)
                 .setTitle("Not Running")
                 .setDescription("'" + serviceName + "' Service is not Running");
+
+        if(serviceName.equalsIgnoreCase("allservices")){
+            for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+                client.getJvmService().stop();
+                client.getJvmService().removeService();
+            }
+            return new EmbedBuilder()
+                    .setColor(Color.GREEN)
+                    .setTitle("Services Stopped")
+                    .setDescription("All Services have been stopped !");
+        }
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){

@@ -10,7 +10,7 @@ import fr.benjimania74.dnbotlink.bot.cmd.utils.ListCmd;
 public class CommandsRegister {
     public void register(){
         BotMain.instance.registerCommand(new StartCmd("start", "Start services command"),
-                new StopCmd("stop", "Strop services command"),
+                new StopCmd("stop", "Stop services command"),
                 new HelpCmd("help", "See all commands"),
                 new LinkCmd("link", "Link a console to Discord"),
                 new ListCmd("list", "See all services")
