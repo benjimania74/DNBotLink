@@ -21,6 +21,5 @@ public class ServiceStopListener implements Listener {
         }catch (Exception e){
             Console.print(Colors.RED_BACKGROUND + "Unable to unregister the client");
         }
-
     }
 }

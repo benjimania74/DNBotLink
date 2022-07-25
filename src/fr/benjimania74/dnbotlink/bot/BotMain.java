@@ -12,18 +12,16 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 
 public class BotMain {
     public static BotMain instance;
     public JDA jda;
-    public static List<Command> commandsList;
+    public static HashMap<String, Command> commandsList;
 
     public boolean create(){
         instance = this;
-        commandsList = new ArrayList<>();
+        commandsList = new HashMap<>();
 
         try{
             new BotConfig();
@@ -49,9 +47,9 @@ public class BotMain {
     }
 
     public void registerCommand(Command command, Command... commands){
-        commandsList.add(command);
-        commandsList.addAll(Arrays.asList(commands));
+        commandsList.put(command.getName(), command);
+        for(Command cmd : commands){commandsList.put(cmd.getName(), cmd);}
     }
-    public void unregisterCommand(Command command){commandsList.remove(command);}
-    public List<Command> getCommands(){return commandsList;}
+    public void unregisterCommand(Command command){commandsList.remove(command.getName());}
+    public HashMap<String, Command> getCommands(){return commandsList;}
 }

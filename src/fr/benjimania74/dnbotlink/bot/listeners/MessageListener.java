@@ -1,11 +1,9 @@
 package fr.benjimania74.dnbotlink.bot.listeners;
 
-import be.alexandre01.dreamnetwork.api.service.IContainer;
 import fr.benjimania74.dnbotlink.Main;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.bot.utils.ExecuteServerCmd;
-import fr.benjimania74.dnbotlink.utils.Services;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,12 +12,17 @@ public class MessageListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event){
         if(event.getAuthor().isBot()){return;}
+
+        if(event.getMessage().getContentRaw().equalsIgnoreCase("<@" + event.getJDA().getSelfUser().getId() + ">")){
+            event.getChannel().sendMessage("My prefix is " + BotConfig.getInstance().getPrefix()).queue();
+            return;
+        }
+
         if(event.getMessage().getContentRaw().startsWith(BotConfig.getInstance().getPrefix())){
-            BotMain.commandsList.forEach((cmd) -> {
-                if(cmd.getName().equalsIgnoreCase(event.getMessage().getContentRaw().split(" ")[0].substring(BotConfig.getInstance().getPrefix().length()))){
-                    cmd.execute((TextChannel) event.getChannel(), Main.clientAPI, event.getMessage());
-                }
-            });
+            String cmd = event.getMessage().getContentRaw().split(" ")[0].substring(BotConfig.getInstance().getPrefix().length());
+            if(BotMain.commandsList.containsKey(cmd)){
+                BotMain.commandsList.get(cmd).execute((TextChannel) event.getChannel(), Main.clientAPI, event.getMessage());
+            }
         }
 
         BotConfig.getInstance().getLinks().forEach((service, id) -> {
@@ -35,9 +38,5 @@ public class MessageListener extends ListenerAdapter {
                 new ExecuteServerCmd().execute(event.getMessage().getContentRaw(), name);
             }
         });
-
-        if(event.getMessage().getContentRaw().equalsIgnoreCase("<@" + event.getJDA().getSelfUser().getId() + ">")){
-            event.getChannel().sendMessage("My prefix is " + BotConfig.getInstance().getPrefix()).queue();
-        }
     }
 }

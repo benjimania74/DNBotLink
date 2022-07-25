@@ -23,6 +23,7 @@ public class Main extends DreamExtension {
         if(!new BotMain().create()){
             //stop();
         }
+        registerPluginToServers(this);
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
     }
 

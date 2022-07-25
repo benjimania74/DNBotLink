@@ -64,7 +64,7 @@ public class ScreenReader extends Thread {
                 }
 
             }
-        },20,20, TimeUnit.MILLISECONDS);
+        },10,10, TimeUnit.MILLISECONDS);
         try {
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             ReadableByteChannel channel = Channels.newChannel(reader);

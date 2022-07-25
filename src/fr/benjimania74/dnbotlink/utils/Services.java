@@ -40,4 +40,13 @@ public class Services {
         }
         return false;
     }
+
+    public static boolean isProxyLaunched(){
+        for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+            if(client.getJvmType().equals(IContainer.JVMType.PROXY)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

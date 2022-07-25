@@ -1,5 +1,6 @@
 package fr.benjimania74.dnbotlink.utils;
 
+import be.alexandre01.dreamnetwork.api.connection.core.communication.IClient;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
@@ -21,11 +22,14 @@ public class ServicesStarter {
                 Console.print(Colors.RED + serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy");
                 return;
             }
-            if(Services.getType(serviceName) == null){
+
+            IContainer.JVMType type = Services.getType(serviceName);
+
+            if(type == null){
                 Console.print(Colors.RED + serviceName + " is not a Service");
                 return;
             }
-            container.getJVMExecutor(serviceName, Services.getType(serviceName)).startServer();
+            container.getJVMExecutor(serviceName, type).startServer();
             return;
         }
 
@@ -60,6 +64,10 @@ public class ServicesStarter {
                 .setColor(Color.RED)
                 .setTitle("Already Running")
                 .setDescription("'" + serviceName + "'Service is Already Running");
+        EmbedBuilder proxyNotLaunched = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("There is no Proxy Running")
+                .setDescription("To Launch a Server, a Proxy must be Running");
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){
@@ -69,7 +77,9 @@ public class ServicesStarter {
                         .setDescription(serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy");
             }
 
-            if(Services.getType(serviceName) == null){
+            IContainer.JVMType type = Services.getType(serviceName);
+
+            if(type == null){
                 return new EmbedBuilder()
                         .setColor(Color.RED)
                         .setTitle("Inexistant Service")
@@ -78,12 +88,15 @@ public class ServicesStarter {
 
             if(Services.isLaunched(serviceName)){ return alreadyRunning; }
 
-            container.getJVMExecutor(serviceName, Services.getType(serviceName)).startServer();
+            if(!Services.isProxyLaunched() && type.equals(IContainer.JVMType.SERVER)){return proxyNotLaunched;}
+
+            container.getJVMExecutor(serviceName, type).startServer();
             return successEmbed;
         }
 
         if(serviceI[1].equalsIgnoreCase("server")){
             if(Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return alreadyRunning; }
+            if(!Services.isProxyLaunched()){return proxyNotLaunched;}
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
                 container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).startServer();
                 return successEmbed;
