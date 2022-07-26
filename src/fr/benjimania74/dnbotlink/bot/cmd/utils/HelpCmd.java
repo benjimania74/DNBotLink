@@ -22,7 +22,7 @@ public class HelpCmd extends Command {
                 .setDescription("Here's the differents disponibles commands")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl());
 
-        BotMain.instance.getCommands().forEach((name, cmd) -> { eb.addField(name, cmd.getDescription(), true); });
+        BotMain.instance.getCommands().forEach((name, cmd) -> eb.addField(name, cmd.getDescription(), true));
 
         channel.sendMessageEmbeds(eb.build()).queue();
     }

@@ -1,61 +1,41 @@
 package fr.benjimania74.dnbotlink.utils;
 
-import be.alexandre01.dreamnetwork.api.connection.core.communication.IClient;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
-import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class ServicesStarter {
     private final IContainer container = Main.clientAPI.getContainer();
     private String serviceName = "";
 
-    public void startD(String @NotNull [] serviceI){
+    public String startD(String @NotNull [] serviceI){
         serviceName = serviceI[0];
+        String serviceStarting = Colors.GREEN_BACKGROUND + serviceName + " is now Starting";
 
         if(serviceI.length == 1){
-            if(Services.isBoth(serviceName)){
-                Console.print(Colors.RED + serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy");
-                return;
-            }
-
-            IContainer.JVMType type = Services.getType(serviceName);
-
-            if(type == null){
-                Console.print(Colors.RED + serviceName + " is not a Service");
-                return;
-            }
-            container.getJVMExecutor(serviceName, type).startServer();
-            return;
+            if(Services.isBoth(serviceName)){return Colors.RED + serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy";}
+            if(Services.getType(serviceName) == null){return Colors.RED + serviceName + " is not a Service";}
+            startService(serviceName);
+            return serviceStarting;
         }
-
         if(serviceI[1].equalsIgnoreCase("server")){
-            if(container.getJVMExecutorsServers().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).startServer();
-                return;
-            }
-            Console.print(Colors.RED + serviceName + " is not a Server");
-            return;
+            if(container.getJVMExecutorsServers().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.SERVER);return serviceStarting;}
+            return Colors.RED + serviceName + " is not a Server";
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
-            if(container.getJVMExecutorsProxy().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).startServer();
-                return;
-            }
-            Console.print(Colors.RED + serviceName + " is not a Proxy");
-            return;
+            if(container.getJVMExecutorsProxy().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.PROXY);return serviceStarting;}
+            return Colors.RED + serviceName + " is not a Proxy";
         }
-
-        Console.print(Colors.RED + "This Service doesn't exists");
+        return Colors.RED + "This Service doesn't exists";
     }
 
     public EmbedBuilder startB(String @NotNull [] serviceI){
         serviceName = serviceI[0];
-
         EmbedBuilder successEmbed = new EmbedBuilder()
                 .setColor(Color.GREEN)
                 .setTitle("'" + serviceName + "' Service is Starting...")
@@ -68,60 +48,41 @@ public class ServicesStarter {
                 .setColor(Color.RED)
                 .setTitle("There is no Proxy Running")
                 .setDescription("To Launch a Server, a Proxy must be Running");
+        EmbedBuilder innexistantService = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Innexistant Service")
+                .setDescription(serviceName + " is not a Service");
+        EmbedBuilder doubleService = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Double Service")
+                .setDescription(serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy");
+        EmbedBuilder incorrectST = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Incorrect Service's Type");
 
         if(serviceI.length == 1){
-            if(Services.isBoth(serviceName)){
-                return new EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setTitle("Double Service")
-                        .setDescription(serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy");
-            }
-
+            if(Services.isBoth(serviceName)){return doubleService;}
             IContainer.JVMType type = Services.getType(serviceName);
-
-            if(type == null){
-                return new EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setTitle("Inexistant Service")
-                        .setDescription(serviceName + " is not a Service");
-            }
-
+            if(type == null){return innexistantService;}
             if(Services.isLaunched(serviceName)){ return alreadyRunning; }
-
             if(!Services.isProxyLaunched() && type.equals(IContainer.JVMType.SERVER)){return proxyNotLaunched;}
-
-            container.getJVMExecutor(serviceName, type).startServer();
+            startService(serviceName, type);
             return successEmbed;
         }
-
         if(serviceI[1].equalsIgnoreCase("server")){
             if(Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return alreadyRunning; }
             if(!Services.isProxyLaunched()){return proxyNotLaunched;}
-            if(container.getJVMExecutorsServers().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER).startServer();
-                return successEmbed;
-            }
-            return new EmbedBuilder()
-                    .setColor(Color.RED)
-                    .setTitle("Incorrect Service's Type")
-                    .setDescription(serviceName + " is not a Server");
+            if(container.getJVMExecutorsServers().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.SERVER);return successEmbed;}
+            return incorrectST.setDescription(serviceName + " is not a Server");
         }
-
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return alreadyRunning; }
-            if(container.getJVMExecutorsProxy().containsKey(serviceName)){
-                container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY).startServer();
-                return successEmbed;
-            }
-            return new EmbedBuilder()
-                    .setColor(Color.RED)
-                    .setTitle("Incorrect Service's Type")
-                    .setDescription(serviceName + " is not a Proxy");
+            if(container.getJVMExecutorsProxy().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.PROXY);return successEmbed;}
+            return incorrectST.setDescription(serviceName + " is not a Proxy");
         }
-
-        return new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Inexistant Service")
-                .setDescription(serviceName + " is not a Service");
+        return innexistantService;
     }
+
+    public void startService(String serviceName){startService(serviceName, Objects.requireNonNull(Services.getType(serviceName)));}
+    public void startService(String serviceName, IContainer.JVMType serviceType){container.getJVMExecutor(serviceName, serviceType).startServer();}
 }

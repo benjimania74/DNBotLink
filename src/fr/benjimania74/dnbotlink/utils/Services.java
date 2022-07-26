@@ -4,12 +4,14 @@ import be.alexandre01.dreamnetwork.api.connection.core.communication.IClient;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
 import fr.benjimania74.dnbotlink.Main;
 
+import java.util.HashMap;
+
 public class Services {
     private static final IContainer container = Main.clientAPI.getContainer();
+    private static final HashMap<String, IClient> clientManager = Main.clientAPI.getClientManager().getClients();
 
     public static boolean isBoth(String serviceName){
-        boolean isServ = false;
-        boolean isProxy = false;
+        boolean isServ = false, isProxy = false;
 
         if(container.getJVMExecutorsServers().containsKey(serviceName)){isServ = true;}
         if(container.getJVMExecutorsProxy().containsKey(serviceName)){isProxy = true;}
@@ -24,29 +26,23 @@ public class Services {
     }
 
     public static boolean isLaunched(String serviceName){
-        for(IClient client : Main.clientAPI.getClientManager().getClients().values()) {
-            if(client.getJvmService().getJvmExecutor().getName().equals(serviceName)){
-                return true;
-            }
-        }
+        if(isClientManagerEmpty()){return false;}
+        for(IClient client : clientManager.values()){if(client.getJvmService().getJvmExecutor().getName().equals(serviceName)){return true;}}
         return false;
     }
 
     public static boolean isLaunched(String serviceName, IContainer.JVMType serviceType){
-        for(IClient client : Main.clientAPI.getClientManager().getClients().values()) {
-            if(client.getJvmService().getJvmExecutor().getName().equals(serviceName) && client.getJvmType().equals(serviceType)){
-                return true;
-            }
-        }
+        if(isClientManagerEmpty()){return false;}
+        for(IClient client : clientManager.values()){if(client.getJvmService().getJvmExecutor().getName().equals(serviceName) && client.getJvmType().equals(serviceType)){return true;}}
         return false;
     }
 
     public static boolean isProxyLaunched(){
-        for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
-            if(client.getJvmType().equals(IContainer.JVMType.PROXY)){
-                return true;
-            }
-        }
+        if(isClientManagerEmpty()){return false;}
+        for(IClient client : clientManager.values()){ if(client.getJvmType().equals(IContainer.JVMType.PROXY)){return true;}}
         return false;
     }
+
+    public static boolean isServicesLaunched(){return Main.clientAPI.getClientManager().getClients().isEmpty();}
+    public static boolean isClientManagerEmpty(){return Main.clientAPI.getClientManager().getClients().isEmpty();}
 }

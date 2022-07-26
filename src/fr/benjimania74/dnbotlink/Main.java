@@ -18,12 +18,14 @@ public class Main extends DreamExtension {
     @Override
     public void onLoad() {
         super.onLoad();
+
+        registerPluginToServers(this);
+
         addonName = getAddon().getDreamyName();
         new FilesManager();
         if(!new BotMain().create()){
             //stop();
         }
-        registerPluginToServers(this);
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
     }
 

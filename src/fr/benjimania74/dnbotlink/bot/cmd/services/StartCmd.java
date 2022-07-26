@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.awt.*;
 
 public class StartCmd extends Command {
-
     public StartCmd(String name, String description) {super(name, description);}
 
     @Override

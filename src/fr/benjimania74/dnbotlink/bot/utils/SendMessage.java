@@ -4,17 +4,19 @@ import fr.benjimania74.dnbotlink.bot.BotMain;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import java.util.Objects;
+
 public class SendMessage {
     public void send(String msg, String channelID){
         if(!channelExist(channelID)){return;}
-        send(msg, BotMain.instance.jda.getTextChannelById(channelID));
+        send(msg, Objects.requireNonNull(BotMain.instance.jda.getTextChannelById(channelID)));
     }
 
     public void send(String msg, TextChannel channel){channel.sendMessage(msg).queue(); }
 
     public void send(MessageEmbed embed, String channelID){
         if(!channelExist(channelID)){return;}
-        send(embed, BotMain.instance.jda.getTextChannelById(channelID));
+        send(embed, Objects.requireNonNull(BotMain.instance.jda.getTextChannelById(channelID)));
     }
 
     public void send(MessageEmbed embed, TextChannel channel) {

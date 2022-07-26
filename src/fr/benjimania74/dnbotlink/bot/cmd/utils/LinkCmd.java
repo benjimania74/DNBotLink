@@ -34,7 +34,7 @@ public class LinkCmd extends Command {
                 .setDescription("Usage: " + getPrefix() + getName() + " <service name to link> [<server | proxy>]")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl());
 
-        String args[];
+        String[] args;
 
         try{
             args = message.getContentRaw().substring(getPrefix().length() + getName().length() + 1).split(" ");
@@ -43,10 +43,7 @@ public class LinkCmd extends Command {
             return;
         }
 
-        if(args.length < 1){
-            channel.sendMessageEmbeds(eb.build()).queue();
-            return;
-        }
+        if(args.length < 1){channel.sendMessageEmbeds(eb.build()).queue();return;}
 
         if(args.length == 1){
             if(Services.isBoth(args[0])){
@@ -63,7 +60,7 @@ public class LinkCmd extends Command {
             if(Services.getType(args[0]) == null){
                 channel.sendMessageEmbeds(new EmbedBuilder()
                         .setColor(Color.RED)
-                        .setTitle("Inexistant Service")
+                        .setTitle("Innexistant Service")
                         .setDescription(args[0] + " is not a Service")
                         .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl())
                         .build()
@@ -116,7 +113,7 @@ public class LinkCmd extends Command {
 
         channel.sendMessageEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle("Inexistant Service")
+                .setTitle("Innexistant Service")
                 .setDescription(args[0] + " is not a Service")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl())
                 .build()
