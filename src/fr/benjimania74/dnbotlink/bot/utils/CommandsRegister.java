@@ -1,6 +1,7 @@
 package fr.benjimania74.dnbotlink.bot.utils;
 
 import fr.benjimania74.dnbotlink.bot.BotMain;
+import fr.benjimania74.dnbotlink.bot.cmd.utils.ConfigCmd;
 import fr.benjimania74.dnbotlink.bot.cmd.utils.LinkCmd;
 import fr.benjimania74.dnbotlink.bot.cmd.services.StartCmd;
 import fr.benjimania74.dnbotlink.bot.cmd.services.StopCmd;
@@ -13,7 +14,8 @@ public class CommandsRegister {
                 new StopCmd("stop", "Stop services command"),
                 new HelpCmd("help", "See all commands"),
                 new LinkCmd("link", "Link a console to Discord"),
-                new ListCmd("list", "See all services")
+                new ListCmd("list", "See all services"),
+                new ConfigCmd("config", "Configure the bot")
         );
     }
 }

@@ -21,7 +21,7 @@ public class StartCmd extends Command {
                 .setDescription("Usage: " + getPrefix() + getName() + " <service> [<server | proxy>]")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl());
 
-        String args[];
+        String[] args;
         
         try{
             args = message.getContentRaw().substring(getPrefix().length() + getName().length() + 1).split(" ");

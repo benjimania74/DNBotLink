@@ -3,6 +3,8 @@ package fr.benjimania74.dnbotlink.bot;
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -46,12 +48,15 @@ public class BotConfig {
             });
 
             setLinks(list);
+
+            if(BotMain.instance.jda != null){
+                BotMain.instance.jda.getPresence().setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()));
+                BotMain.instance.jda.getPresence().setActivity(Activity.playing(BotConfig.getInstance().getActivity() + " | Type " + BotConfig.getInstance().getPrefix() + "help"));
+            }
         }catch (Exception e){
             object = new JSONObject();
             save();
-            new BotConfig();
         }
-
         instance = this;
     }
 
@@ -62,18 +67,16 @@ public class BotConfig {
             object.put("prefix", getPrefix());
 
             JSONObject list = new JSONObject();
-            getLinks().forEach((key, value) -> {
-                list.put(key, value);
-            });
+            list.putAll(getLinks());
 
             object.put("link", list);
 
             FilesManager.getInstance().write("config", Base64.getEncoder().encodeToString(object.toJSONString().getBytes()));
 
-            Console.print(Colors.GREEN + "The Configuration File has been saved");
-            new BotConfig();
+            Console.print(Colors.GREEN_BACKGROUND + "The Configuration File has been saved");
+            reload();
         }catch (Exception e){
-            Console.print(Colors.RED + "Can't save the Configuration File");
+            Console.print(Colors.RED_BACKGROUND + "Can't save the Configuration File");
         }
     }
 
