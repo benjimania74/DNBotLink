@@ -40,14 +40,7 @@ public class BotConfig {
             setActivity((String) object.get("activity"));
             setStatus((String) object.get("status"));
             setPrefix((String) object.get("prefix"));
-
-            JSONObject connectionsList = (JSONObject) object.get("link");
-            HashMap<String, String> list = new HashMap<>();
-            connectionsList.forEach((key, value) -> {
-                list.put((String) key, (String) value);
-            });
-
-            setLinks(list);
+            setLinks((JSONObject) object.get("link"));
 
             if(BotMain.instance.jda != null){
                 BotMain.instance.jda.getPresence().setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()));
