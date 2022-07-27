@@ -43,6 +43,6 @@ public class Services {
         return false;
     }
 
-    public static boolean isServicesLaunched(){return Main.clientAPI.getClientManager().getClients().isEmpty();}
+    public static boolean isServicesLaunched(){return !Main.clientAPI.getClientManager().getClients().isEmpty();}
     public static boolean isClientManagerEmpty(){return Main.clientAPI.getClientManager().getClients().isEmpty();}
 }

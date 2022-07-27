@@ -10,6 +10,7 @@ import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.registers.CommandsRegister;
 import fr.benjimania74.dnbotlink.registers.ListenerRegister;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
+import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
 
 public class Main extends DreamExtension {
     public static DNClientAPI clientAPI;
@@ -43,6 +44,7 @@ public class Main extends DreamExtension {
         }
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
+        new ServiceAutoStarter();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class ServerCmd extends Command {
         addSubCommand("stop", args -> {
             if(args.length == 1){Console.print(Colors.RED + "Invalid Command");return true;}
 
-            if(Services.isServicesLaunched()){Console.print(Colors.RED + "There's no Services Running");return true;}
+            if(!Services.isServicesLaunched()){Console.print(Colors.RED + "There's no Services Running");return true;}
             if(!Services.isLaunched(args[1])){Console.print(Colors.RED + "This Service is not Running");return true;}
 
             String[] serviceI;
@@ -37,8 +37,8 @@ public class ServerCmd extends Command {
             return true;
         });
 
-        getHelpBuilder().setTitleUsage("Server Command");
-        getHelpBuilder().setCmdUsage("Launch a server","start", "<service> [<proxy | server>]");
-        getHelpBuilder().setCmdUsage("Launch a server","stop", "<service> [<proxy | server>]");
+        getHelpBuilder().setTitleUsage("Server Command")
+                .setCmdUsage("Launch a server","start", "<service> [<proxy | server>]")
+                .setCmdUsage("Launch a server","stop", "<service> [<proxy | server>]");
     }
 }
