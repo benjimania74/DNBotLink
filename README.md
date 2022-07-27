@@ -1,20 +1,27 @@
-# DNBotLink v0.0.3-dev
+# DNBotLink v0.0.4-dev
 
 #### Start the Bot
 
 To Start the Bot, you just have to past your Bot Token in the `token` file (``./addons/DNBotLink/token``) and start the DreamNetwork !
-The prefix is `d!`, you can mention the Bot to get it. It is not possible to change the prefix for the moment !
+The prefix is `d!`, you can mention the Bot to get it. You can change the prefix if you want ! (see the config command)
 
 ## Console Commands:
 
 > `server <start|stop> <service> [<server|proxy>]` - Start and Stop a DN Service
+
 > `clients see` - See all Online Services on your DreamNetwork
 
 ## Bot Commands:
 
 > `start <service> [<server|proxy>]` - Start a DN Service
+
 > `stop <service> [<server|proxy>]` - Strop a DN Service
+
 > `link <service> [<server|proxy>]` - Link a DN Service and a Discord Channel
+
+> `list` - See all DN Services
+
+> `config <key> <value>` (`config` to see all) - Configure the Bot
 
 
 ## On linked Discord Channels
