@@ -34,6 +34,11 @@ public class BotConfig {
     public void setLinks(HashMap<String, String> links) {this.links = links;}
     public void addLink(String serviceName, String discordChannel){links.put(serviceName, discordChannel); save();}
 
+    private HashMap<String, String> chatLinks = new HashMap<>();
+    public HashMap<String, String> getChatLinks() {return chatLinks;}
+    public void setChatLinks(HashMap<String, String> links) {this.chatLinks = links;}
+    public void addChatLink(String serviceName, String discordChannel){chatLinks.put(serviceName, discordChannel); save();}
+
     public BotConfig(){
         try {
             object = (JSONObject) new JSONParser().parse(new String(Base64.getDecoder().decode(FilesManager.getInstance().read("config"))));
@@ -41,6 +46,7 @@ public class BotConfig {
             setStatus((String) object.get("status"));
             setPrefix((String) object.get("prefix"));
             setLinks((JSONObject) object.get("link"));
+            setChatLinks((JSONObject) object.get("chatlink"));
 
             if(BotMain.instance.jda != null){
                 BotMain.instance.jda.getPresence().setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()));
@@ -61,8 +67,11 @@ public class BotConfig {
 
             JSONObject list = new JSONObject();
             list.putAll(getLinks());
-
             object.put("link", list);
+
+            JSONObject chatList = new JSONObject();
+            chatList.putAll(getChatLinks());
+            object.put("chatlink", chatList);
 
             FilesManager.getInstance().write("config", Base64.getEncoder().encodeToString(object.toJSONString().getBytes()));
 
