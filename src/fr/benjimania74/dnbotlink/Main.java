@@ -11,6 +11,7 @@ import fr.benjimania74.dnbotlink.utils.CustomResponse;
 import fr.benjimania74.dnbotlink.registers.CommandsRegister;
 import fr.benjimania74.dnbotlink.registers.ListenerRegister;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
+import fr.benjimania74.dnbotlink.utils.InstallFile;
 import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
 
 public class Main extends DreamExtension {
@@ -46,6 +47,9 @@ public class Main extends DreamExtension {
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
         new ServiceAutoStarter();
+
+        // InstallFile.install("./paper-1.8.8.jar", "https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/443/downloads/paper-1.8.8-443.jar"); <- INSTALL PAPER SPIGOT 1.8.8
+        clientAPI.getGlobalResponses().add(new CustomResponse());
     }
 
     @Override
