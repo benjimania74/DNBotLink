@@ -13,7 +13,7 @@ public class PrefixConfigCmd extends ConfigCommands {
 
     @Override
     public void execute(TextChannel channel, String[] args) {
-        if(args.length == 1){
+        if(args.length != 2){
             channel.sendMessageEmbeds(
                     new EmbedBuilder()
                             .setColor(Color.RED)

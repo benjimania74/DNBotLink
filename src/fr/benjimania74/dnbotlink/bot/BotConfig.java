@@ -29,6 +29,10 @@ public class BotConfig {
     public String getPrefix() {return prefix;}
     public void setPrefix(String prefix) {this.prefix = prefix;}
 
+    private String permRole = "everyone";
+    public String getPermRole() {return permRole;}
+    public void setPermRole(String permRole) {this.permRole = permRole;}
+
     private HashMap<String, String> links = new HashMap<>();
     public HashMap<String, String> getLinks() {return links;}
     public void setLinks(HashMap<String, String> links) {this.links = links;}
@@ -47,6 +51,7 @@ public class BotConfig {
             setPrefix((String) object.get("prefix"));
             setLinks((JSONObject) object.get("link"));
             setChatLinks((JSONObject) object.get("chatlink"));
+            setPermRole((String) object.get("permrole"));
 
             if(BotMain.instance.jda != null){
                 BotMain.instance.jda.getPresence().setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()));
@@ -64,6 +69,7 @@ public class BotConfig {
             object.put("activity", getActivity());
             object.put("status", getStatus());
             object.put("prefix", getPrefix());
+            object.put("permrole", getPermRole());
 
             JSONObject list = new JSONObject();
             list.putAll(getLinks());

@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import java.util.HashMap;
 
@@ -28,8 +30,9 @@ public class BotMain {
 
             String token = FilesManager.getInstance().read("token");
 
-            JDABuilder builder = JDABuilder.createDefault(token)
-                    .enableIntents(GatewayIntent.GUILD_MESSAGES)
+            JDABuilder builder = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
+                    .setChunkingFilter(ChunkingFilter.ALL)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()))
                     .setActivity(Activity.playing(BotConfig.getInstance().getActivity() + " | Type " + BotConfig.getInstance().getPrefix() + "help"));
 
