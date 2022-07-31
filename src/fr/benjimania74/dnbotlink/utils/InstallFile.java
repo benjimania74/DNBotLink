@@ -2,6 +2,9 @@ package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +14,7 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Scanner;
 
 public class InstallFile {
     public static boolean install(String file, String url) {
@@ -32,10 +36,54 @@ public class InstallFile {
     }
 
     public static boolean installPaper(String file, String version){
-        return false;
+        String url = getPaperVersion(version);
+        if(url.equals("invalidVersion")){return false;}
+        return install(file, url);
+    }
+
+    public static boolean installBungee(String file){return install(file, "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar");}
+
+    public static boolean installFlameCord(String file, String version){
+        String url = getPaperVersion(version);
+        if(url.equals("invalidVersion")){return false;}
+        return install(file, url);
     }
 
     private static String getPaperVersion(String version){
-        return null;
+        try {
+            URL url = new URL("https://api.papermc.io/v2/projects/paper/versions/" + version + "/");
+            Scanner sc = new Scanner(url.openStream());
+            StringBuffer sb = new StringBuffer();
+            while (sc.hasNext()) {sb.append(sc.next());}
+            JSONObject object = (JSONObject) new JSONParser().parse(sb.toString());
+
+            if(!object.containsKey("builds")){return "invalidVersion";}
+
+            JSONArray builds = (JSONArray) object.get("builds");
+            long build = (long) builds.get(builds.size()-1);
+            return "https://api.papermc.io/v2/projects/paper/versions/" + version + "/builds/" + build + "/downloads/paper-" + version + "-" + build + ".jar";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "invalidVersion";
+        }
+    }
+
+    private static String getWaterfallVersion(String version){
+        try {
+            URL url = new URL("https://api.papermc.io/v2/projects/waterfall/versions/" + version + "/");
+            Scanner sc = new Scanner(url.openStream());
+            StringBuffer sb = new StringBuffer();
+            while (sc.hasNext()) {sb.append(sc.next());}
+            JSONObject object = (JSONObject) new JSONParser().parse(sb.toString());
+
+            if(!object.containsKey("builds")){return "invalidVersion";}
+
+            JSONArray builds = (JSONArray) object.get("builds");
+            long build = (long) builds.get(builds.size()-1);
+            return "https://api.papermc.io/v2/projects/waterfall/versions/" + version + "/builds/" + build + "/downloads/paper-" + version + "-" + build + ".jar";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "invalidVersion";
+        }
     }
 }
