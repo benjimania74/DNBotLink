@@ -63,9 +63,7 @@ public class MessageListener extends ListenerAdapter {
                 if(args[1].equalsIgnoreCase("proxy")){ return; }
             }
 
-            if(id.equals(event.getChannel().getId())){
-                new ExecuteServerCmd().execute(event.getMessage().getContentRaw(), name);
-            }
+            if(id.equals(event.getChannel().getId())){new ExecuteServerCmd().execute(event.getMessage().getContentRaw(), name);}
         });
     }
 }

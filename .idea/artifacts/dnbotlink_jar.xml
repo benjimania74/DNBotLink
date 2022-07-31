@@ -6,7 +6,7 @@
       <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/JDA-4.4.0_350-withDependencies.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/Downloads/lombok.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/json-simple-1.1.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/DreamNetwork-Plugin-api.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/DreamNetwork-Plugin-api.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

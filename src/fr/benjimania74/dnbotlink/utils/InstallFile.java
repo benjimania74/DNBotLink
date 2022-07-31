@@ -30,4 +30,12 @@ public class InstallFile {
             return false;
         }
     }
+
+    public static boolean installPaper(String file, String version){
+        return false;
+    }
+
+    private static String getPaperVersion(String version){
+        return null;
+    }
 }
