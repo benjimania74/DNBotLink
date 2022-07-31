@@ -23,18 +23,22 @@ public class ServicesStopper {
             if(Services.isBoth(serviceName)){
                 return Colors.RED + serviceName + " is a Server and a Proxy ! Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy";
             }
-            if(Services.getType(serviceName) == null){return notAService;}
+            IContainer.JVMType type = Services.getType(serviceName);
+            if(type == null){return notAService;}
+            if(Services.containMultiple(serviceName, type)){return Colors.RED + "This service is DYNAMIC started multiple time, please use 'stop dynamic' command";}
             stopServer(container.getJVMExecutor(serviceName, Services.getType(serviceName)));
             return Colors.GREEN + "Service '" + serviceName + "' stopped";
         }
 
         if(serviceI[1].equalsIgnoreCase("server")){
             if(!container.getJVMExecutorsServers().containsKey(serviceName)){return Colors.RED + serviceName + " is not a Server";}
+            if(Services.containMultiple(serviceName, IContainer.JVMType.SERVER)){return Colors.RED + "This service is DYNAMIC started multiple time, please use 'stop dynamic' command";}
             stopServer(container.getJVMExecutor(serviceName, Services.getType(serviceName)));
             return Colors.RED + serviceName + " is not a Server";
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(!container.getJVMExecutorsProxy().containsKey(serviceI[0])){return Colors.RED + serviceName + " is not a Proxy";}
+            if(Services.containMultiple(serviceName, IContainer.JVMType.PROXY)){return Colors.RED + "This service is DYNAMIC and started multiple time, please use 'stop dynamic' command";}
             stopServer(container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY));
             return Colors.RED + serviceName + " is not a Proxy";
         }
@@ -67,13 +71,19 @@ public class ServicesStopper {
         EmbedBuilder incorrectST = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Incorrect Service's Type");
+        EmbedBuilder dynamicS = new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Dynamic Server")
+                .setDescription("This service is DYNAMIC started multiple time, please use 'stop dynamic' command");
 
         if(isAllServices(serviceName)){stopAllServices();return allServicesStopped;}
 
         if(serviceI.length == 1){
+            IContainer.JVMType type = Services.getType(serviceName);
             if(Services.isBoth(serviceName)){return doubleService;}
-            if(Services.getType(serviceName) == null){return innexistantService;}
+            if(type == null){return innexistantService;}
             if(!Services.isLaunched(serviceName)){return notRunning;}
+            if(Services.containMultiple(serviceName, type)){return dynamicS;}
             stopServer(container.getJVMExecutor(serviceName, Services.getType(serviceName)));
             return successEmbed;
         }
@@ -81,6 +91,7 @@ public class ServicesStopper {
         if(serviceI[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(serviceName)){
                 if(!Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return notRunning;}
+                if(Services.containMultiple(serviceName, IContainer.JVMType.SERVER)){return dynamicS;}
                 stopServer(container.getJVMExecutor(serviceName, IContainer.JVMType.SERVER));
                 return successEmbed;
             }
@@ -90,6 +101,7 @@ public class ServicesStopper {
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(container.getJVMExecutorsProxy().containsKey(serviceName)){
                 if(!Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return notRunning;}
+                if(Services.containMultiple(serviceName, IContainer.JVMType.PROXY)){return dynamicS;}
                 stopServer(container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY));
                 return successEmbed;
             }
@@ -101,4 +113,12 @@ public class ServicesStopper {
     private boolean isAllServices(@NotNull String name){ return name.equalsIgnoreCase("allservices");}
     private void stopServer(@NotNull IJVMExecutor executor){executor.getService(0).stop();}
     private void stopAllServices(){ Main.clientAPI.getClientManager().getClients().values().forEach(iClient -> iClient.getJvmService().stop()); }
+
+    public String stopDynamic(String s) {
+        if(Main.clientAPI.getClientManager().getClients().containsKey(s)){
+            stopServer(Main.clientAPI.getClientManager().getClient(s).getJvmService().getJvmExecutor());
+            return Colors.GREEN + s + " is now stopped";
+        }
+        return Colors.RED + "This service is not started";
+    }
 }

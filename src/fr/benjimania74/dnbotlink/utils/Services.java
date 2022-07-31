@@ -45,4 +45,14 @@ public class Services {
 
     public static boolean isServicesLaunched(){return !Main.clientAPI.getClientManager().getClients().isEmpty();}
     public static boolean isClientManagerEmpty(){return Main.clientAPI.getClientManager().getClients().isEmpty();}
+
+    public static boolean isDynamic(String serviceName, IContainer.JVMType type) {return Main.clientAPI.getContainer().getJVMExecutor(serviceName, type).getType().getPath().equals("/tmp/");}
+
+    public static boolean containMultiple(String serviceName, IContainer.JVMType type){
+        int i = 0;
+        for(IClient client : Main.clientAPI.getClientManager().getClients().values()){
+            if(client.getJvmService().getJvmExecutor().getName().equals(serviceName) && client.getJvmType().equals(type)){i++;}
+        }
+        return i > 1;
+    }
 }

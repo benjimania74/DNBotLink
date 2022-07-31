@@ -12,10 +12,7 @@ public class ServerCmd extends Command {
         super(name);
 
         addSubCommand("start", args -> {
-            if(args.length == 1){
-                Console.print(Colors.RED + "Invalid Command");
-                return true;
-            }
+            if(args.length == 1){Console.print(Colors.RED + "Format: server start <service> [<proxy | server>]");return true;}
 
             if(Services.isLaunched(args[1])){Console.print(Colors.RED + "This Service is already Running");return true;}
 
@@ -26,19 +23,23 @@ public class ServerCmd extends Command {
         });
 
         addSubCommand("stop", args -> {
-            if(args.length == 1){Console.print(Colors.RED + "Invalid Command");return true;}
+            if(args.length == 1){Console.print(Colors.RED + "Format: server stop <service> [<proxy | server>] \n server stop dynamic <service-ID>");return true;}
 
             if(!Services.isServicesLaunched()){Console.print(Colors.RED + "There's no Services Running");return true;}
             if(!Services.isLaunched(args[1])){Console.print(Colors.RED + "This Service is not Running");return true;}
 
             String[] serviceI;
             if(args.length == 2){ serviceI = new String[]{args[1]}; }else{ serviceI = new String[]{args[1], args[2]}; }
+            if(args[1].equals("dynamic")){
+                new ServicesStopper().stopDynamic(serviceI[2]);
+            }
             Console.print(new ServicesStopper().stopD(serviceI));
             return true;
         });
 
         getHelpBuilder().setTitleUsage("Server Command")
                 .setCmdUsage("Launch a server","start", "<service> [<proxy | server>]")
-                .setCmdUsage("Launch a server","stop", "<service> [<proxy | server>]");
+                .setCmdUsage("Stop a server","stop", "<service> [<proxy | server>]")
+                .setCmdUsage("Stop a dynamic server", "stop", "dynamic <service>");
     }
 }

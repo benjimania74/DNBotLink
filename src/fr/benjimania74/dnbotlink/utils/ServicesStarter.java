@@ -64,20 +64,26 @@ public class ServicesStarter {
             if(Services.isBoth(serviceName)){return doubleService;}
             IContainer.JVMType type = Services.getType(serviceName);
             if(type == null){return innexistantService;}
-            if(Services.isLaunched(serviceName)){ return alreadyRunning; }
-            if(!Services.isProxyLaunched() && type.equals(IContainer.JVMType.SERVER)){return proxyNotLaunched;}
+            if(!Services.isDynamic(serviceName, type)){
+                if(Services.isLaunched(serviceName)){ return alreadyRunning; }
+                if(!Services.isProxyLaunched() && type.equals(IContainer.JVMType.SERVER)){return proxyNotLaunched;}
+            }
             startService(serviceName, type);
             return successEmbed;
         }
         if(serviceI[1].equalsIgnoreCase("server")){
-            if(Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return alreadyRunning; }
-            if(!Services.isProxyLaunched()){return proxyNotLaunched;}
+            if(!Services.isDynamic(serviceName, IContainer.JVMType.SERVER)){
+                if(Services.isLaunched(serviceName, IContainer.JVMType.SERVER)){return alreadyRunning; }
+                if(!Services.isProxyLaunched()){return proxyNotLaunched;}
+            }
             if(container.getJVMExecutorsServers().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.SERVER);return successEmbed;}
             return incorrectST.setDescription(serviceName + " is not a Server");
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
-            if(Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return alreadyRunning; }
-            if(container.getJVMExecutorsProxy().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.PROXY);return successEmbed;}
+            if(!Services.isDynamic(serviceName, IContainer.JVMType.PROXY)){
+                if(Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return alreadyRunning; }
+                if(container.getJVMExecutorsProxy().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.PROXY);return successEmbed;}
+            }
             return incorrectST.setDescription(serviceName + " is not a Proxy");
         }
         return innexistantService;
