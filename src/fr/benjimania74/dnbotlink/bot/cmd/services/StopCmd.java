@@ -18,7 +18,7 @@ public class StopCmd extends Command {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Invalid Command")
-                .setDescription("Usage: " + getPrefix() + getName() + " <service> [<server | proxy>] | " + getPrefix() + getName() + " allservices")
+                .setDescription("Usage: " + getPrefix() + getName() + " <service> [<server | proxy>] | " + getPrefix() + getName() + " allservices | " + getPrefix() + getName() + "dynamic <server-ID>")
                 .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl());
 
         String[] args;
@@ -30,8 +30,27 @@ public class StopCmd extends Command {
             return;
         }
 
-        if(args.length < 1){
-            channel.sendMessageEmbeds(eb.build()).queue();
+        if(args.length < 1){channel.sendMessageEmbeds(eb.build()).queue();return;}
+
+        if(args[0].equals("allservices")){
+            message.getChannel().sendMessageEmbeds(new EmbedBuilder()
+                    .setColor(Color.GREEN)
+                    .setTitle("All Services Stopped")
+                    .setDescription("All Services have been stopped")
+                    .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl())
+                    .build()
+            ).queue();
+            return;
+        }
+        if(args[1].equals("dynamic")){
+            if(args.length != 2){
+                message.getChannel().sendMessageEmbeds(eb.build()).queue();
+                return;
+            }
+            message.getChannel().sendMessageEmbeds(new ServicesStopper().stopDynamicB(args[1])
+                    .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl())
+                    .build()
+            ).queue();
             return;
         }
 

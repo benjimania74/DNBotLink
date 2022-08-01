@@ -14,8 +14,6 @@ public class ServerCmd extends Command {
         addSubCommand("start", args -> {
             if(args.length == 1){Console.print(Colors.RED + "Format: server start <service> [<proxy | server>]");return true;}
 
-            if(Services.isLaunched(args[1])){Console.print(Colors.RED + "This Service is already Running");return true;}
-
             String[] serviceI;
             if(args.length == 2){ serviceI = new String[]{args[1]}; }else{ serviceI = new String[]{args[1], args[2]}; }
             Console.print(new ServicesStarter().startD(serviceI));
@@ -26,13 +24,20 @@ public class ServerCmd extends Command {
             if(args.length == 1){Console.print(Colors.RED + "Format: server stop <service> [<proxy | server>] \n server stop dynamic <service-ID>");return true;}
 
             if(!Services.isServicesLaunched()){Console.print(Colors.RED + "There's no Services Running");return true;}
-            if(!Services.isLaunched(args[1])){Console.print(Colors.RED + "This Service is not Running");return true;}
 
             String[] serviceI;
             if(args.length == 2){ serviceI = new String[]{args[1]}; }else{ serviceI = new String[]{args[1], args[2]}; }
-            if(args[1].equals("dynamic")){
-                new ServicesStopper().stopDynamic(serviceI[2]);
+            if (args[1].equals("allservices")){
+                new ServicesStopper().stopAllServices();
+                Console.print(Colors.GREEN + "All Services have been Stopped");
+                return true;
             }
+            if(args[1].equals("dynamic")){
+                if(serviceI.length != 2){Console.print(Colors.RED + "Format: server stop dynamic <service-ID>");return true;}
+                Console.print(new ServicesStopper().stopDynamicD(serviceI[1]));
+                return true;
+            }
+            if(!Services.isLaunched(args[1])){Console.print(Colors.RED + "This Service is not Running");return true;}
             Console.print(new ServicesStopper().stopD(serviceI));
             return true;
         });

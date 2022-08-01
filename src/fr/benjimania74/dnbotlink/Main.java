@@ -11,11 +11,7 @@ import fr.benjimania74.dnbotlink.utils.CustomResponse;
 import fr.benjimania74.dnbotlink.registers.CommandsRegister;
 import fr.benjimania74.dnbotlink.registers.ListenerRegister;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
-import fr.benjimania74.dnbotlink.utils.InstallFile;
 import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
-
-import java.net.URL;
-import java.util.Scanner;
 
 public class Main extends DreamExtension {
     public static DNClientAPI clientAPI;
@@ -52,17 +48,6 @@ public class Main extends DreamExtension {
         new ServiceAutoStarter();
 
         // InstallFile.install("./paper-1.8.8.jar", "https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/443/downloads/paper-1.8.8-443.jar"); <- INSTALL PAPER SPIGOT 1.8.8
-
-        /*try {
-            URL url = new URL("https://api.papermc.io/v2/projects/paper/versions/1.8.8/");
-            Scanner sc = new Scanner(url.openStream());
-            StringBuffer sb = new StringBuffer();
-            while (sc.hasNext()) {sb.append(sc.next());}
-            String result = sb.toString();
-            System.out.println(result);
-        }catch (Exception e){
-            e.printStackTrace();
-        }*/
 
         clientAPI.getGlobalResponses().add(new CustomResponse());
     }

@@ -21,7 +21,7 @@ public class ServiceAutoStarter {
             object = (JSONArray) jobj.get("services");
         }catch (Exception e){
             jobj = new JSONObject();
-            jobj.put("services", new JSONParser());
+            jobj.put("services", new JSONArray());
             save(jobj.toJSONString());
             Console.print(Colors.YELLOW + "No Service to Auto-Start");
             return;
