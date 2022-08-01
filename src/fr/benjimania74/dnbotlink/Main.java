@@ -25,9 +25,7 @@ public class Main extends DreamExtension {
 
         addonName = getAddon().getDreamyName();
         new FilesManager();
-        if(!new BotMain().create()){
-            //stop();
-        }
+        if(!new BotMain().create()){Console.print("The Bot can't be Started, you will be able to use only the Console's Commands");}
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
     }
 
@@ -35,19 +33,13 @@ public class Main extends DreamExtension {
     public void start() {
         super.start();
         clientAPI = getDnClientAPI();
-        if(!CommandsRegister.register(clientAPI)){
-            Console.print(Colors.RED + "The Plugin is stopping");
-            //this.stop();
-        }
-        if(!ListenerRegister.register(clientAPI)){
-            Console.print(Colors.RED + "The Plugin is stopping");
-            //this.stop();
-        }
+        if(!CommandsRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the Commands, the Addon will not be able to be used");}
+        if(!ListenerRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the listeners, the Addon will not be able to be used correctly");}
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
         new ServiceAutoStarter();
 
-        // InstallFile.install("./paper-1.8.8.jar", "https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/443/downloads/paper-1.8.8-443.jar"); <- INSTALL PAPER SPIGOT 1.8.8
+        // InstallFile.installPaper("./paper-1.8.8.jar", "1.8.8"); <- INSTALL PAPER SPIGOT 1.8.8
 
         clientAPI.getGlobalResponses().add(new CustomResponse());
     }
