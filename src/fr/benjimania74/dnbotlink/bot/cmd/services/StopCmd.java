@@ -3,7 +3,9 @@ package fr.benjimania74.dnbotlink.bot.cmd.services;
 import be.alexandre01.dreamnetwork.api.DNClientAPI;
 import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
+import fr.benjimania74.dnbotlink.utils.Services;
 import fr.benjimania74.dnbotlink.utils.ServicesStopper;
+import fr.benjimania74.dnbotlink.utils.StatusMessages;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -33,10 +35,19 @@ public class StopCmd extends Command {
         if(args.length < 1){channel.sendMessageEmbeds(eb.build()).queue();return;}
 
         if(args[0].equals("allservices")){
+            if(!Services.isServicesLaunched()){
+                message.getChannel().sendMessageEmbeds(new EmbedBuilder()
+                        .setColor(Color.GREEN)
+                        .setTitle(StatusMessages.NO_SERVICE_RUNNING)
+                        .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl())
+                        .build()
+                ).queue();
+                return;
+            }
+            new ServicesStopper().stopAllServices();
             message.getChannel().sendMessageEmbeds(new EmbedBuilder()
                     .setColor(Color.GREEN)
-                    .setTitle("All Services Stopped")
-                    .setDescription("All Services have been stopped")
+                    .setTitle("All Services have been Stopped")
                     .setFooter(getAddonName() + " by benjimania74", BotMain.instance.jda.getSelfUser().getAvatarUrl())
                     .build()
             ).queue();
