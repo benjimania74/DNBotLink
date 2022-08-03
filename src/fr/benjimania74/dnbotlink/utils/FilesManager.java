@@ -18,25 +18,18 @@ public class FilesManager {
 
     private final String[] configFiles = {"token", "config", "autostartservice"};
     protected String jar = FilesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath().substring(1);
-    public Path addonPath = Paths.get(jar.replace("/" + jar.substring(jar.lastIndexOf("/") + 1), "") + "/" + Main.addonName);
+    public Path addonPath = Paths.get("/" + jar.replace("/" + jar.substring(jar.lastIndexOf("/") + 1), "") + "/" + Main.addonName);
 
     public FilesManager(){
-        if(!Files.exists(addonPath)){ try{ Files.createDirectory(addonPath); }catch (Exception e){ e.printStackTrace(); } }
+        if(!Files.exists(addonPath)){createDirectory(addonPath.toString());}
         for(String f : configFiles){
-            File file = new File(addonPath + "/" + f);
-            if(!file.exists()){
-                try{
-                    file.createNewFile();
-                    Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + Colors.YELLOW + "] " + Colors.CYAN + f + " created");
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
+            createFile(addonPath + "/" + f);
+            Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + Colors.YELLOW + "] " + Colors.CYAN + f + " created");
         }
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + " INFO" + Colors.YELLOW + "] " + Colors.GREEN + "The Bot's Token can be changed in '" + addonPath + "\\token' file");
 
-        Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + Colors.YELLOW + "] " + Colors.CYAN + "Plugin's Files are loaded");
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + Main.addonName + Colors.YELLOW + "] " + Colors.CYAN + "Addon's Files are loaded");
         instance = this;
     }
 
@@ -60,5 +53,24 @@ public class FilesManager {
         fw.write(content);
         fw.flush();
         fw.close();
+    }
+
+    public void createFile(String file){
+        try{
+            File f = new File(file);
+            f.createNewFile();
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void createDirectory(String path){
+        try{
+            Files.createDirectory(Paths.get(path));
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void deleteDirectory(Path path){
+        try{
+            Files.delete(path);
+        }catch (Exception e){e.printStackTrace();}
     }
 }

@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -31,6 +32,20 @@ public class InstallFile {
             return true;
         }catch (IOException e){
             Console.print(Colors.RED_BACKGROUND + "Unable to download these files");
+            return false;
+        }
+    }
+
+    public static boolean installDNPlugin(String file){
+        return install(file, "URL");
+    }
+
+    public static boolean copyLocalFile(String copiedFile, String file){
+        try {
+            Files.copy(Paths.get(file), (new File(copiedFile)).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

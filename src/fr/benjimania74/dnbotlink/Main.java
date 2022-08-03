@@ -16,6 +16,7 @@ import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
 public class Main extends DreamExtension {
     public static DNClientAPI clientAPI;
     public static String addonName;
+    public static String addonVersion;
 
     @Override
     public void onLoad() {
@@ -24,6 +25,7 @@ public class Main extends DreamExtension {
         registerPluginToServers(this);
 
         addonName = getAddon().getDreamyName();
+        addonVersion = getAddon().getVersion();
         new FilesManager();
         if(!new BotMain().create()){Console.print("The Bot can't be Started, you will be able to use only the Console's Commands");}
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
