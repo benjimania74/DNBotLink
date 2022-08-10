@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.Objects;
 
 public class SendMessage {
-    public static void send(String msg, String channelID){
+    public static void send(String msg, Object channelID){
         if(!channelExist(channelID)){return;}
-        send(msg, Objects.requireNonNull(BotMain.instance.jda.getTextChannelById(channelID)));
+        send(msg, Objects.requireNonNull(BotMain.instance.jda.getTextChannelById((String) channelID)));
     }
 
     public static void send(String msg, TextChannel channel){channel.sendMessage(msg).queue(); }
@@ -23,7 +23,7 @@ public class SendMessage {
         channel.sendMessageEmbeds(embed).queue();
     }
 
-    private static boolean channelExist(String channelID){
+    private static boolean channelExist(Object channelID){
         for(TextChannel channel : BotMain.instance.jda.getTextChannels()){if(channel.getId().equals(channelID)){return true;}}
         return false;
     }

@@ -16,7 +16,7 @@ public class FilesManager {
     private static FilesManager instance;
     public static FilesManager getInstance(){return instance;}
 
-    private final String[] configFiles = {"token", "config", "autostartservice"};
+    private final String[] configFiles = {"token"};
     protected String jar = FilesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath().substring(1);
     public Path addonPath = Paths.get((System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("Windows") ? "" : "/") + jar.replace("/" + jar.substring(jar.lastIndexOf("/") + 1), "") + "/" + Main.addonName);
 

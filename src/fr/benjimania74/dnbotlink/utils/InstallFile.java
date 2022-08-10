@@ -12,10 +12,14 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Enumeration;
 import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class InstallFile {
     public static boolean install(String file, String url) {
@@ -37,7 +41,20 @@ public class InstallFile {
     }
 
     public static boolean installDNPlugin(String file){
-        return install(file, "URL");
+        try {
+            ZipFile zf = new ZipFile("DNLauncher.jar");
+
+            Enumeration<? extends ZipEntry> entries = zf.entries();
+
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                System.out.println(entry);
+            }
+            System.out.println(zf.getEntry("files/universal/DreamNetwork-Plugin.jar"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static boolean copyLocalFile(String copiedFile, String file){

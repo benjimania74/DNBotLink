@@ -20,10 +20,10 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event){
         if(event.getAuthor().isBot()){return;}
 
-        HashMap<String, String> chatLinks = BotConfig.getInstance().getChatLinks();
+        HashMap<Object, Object> chatLinks = BotConfig.getInstance().getChatLinks();
         if(!chatLinks.isEmpty()){
             if(chatLinks.containsValue(event.getChannel().getId())){
-                for(String name : chatLinks.keySet()){
+                for(Object name : chatLinks.keySet()){
                     if(chatLinks.get(name).equals(event.getChannel().getId())){
                         if(Services.isLaunched(name, IContainer.JVMType.SERVER)){
                             String msg = "[Discord] " + event.getMessage().getAuthor().getName() + "> " + event.getMessage().getContentRaw();
@@ -55,10 +55,10 @@ public class MessageListener extends ListenerAdapter {
         }
 
         BotConfig.getInstance().getLinks().forEach((service, id) -> {
-            String name = service;
+            String name = (String) service;
 
-            if(service.split("<&>").length == 2){
-                String[] args = service.split("<&>");
+            if(((String)service).split("<&>").length == 2){
+                String[] args = ((String)service).split("<&>");
                 name = args[0];
                 if(args[1].equalsIgnoreCase("proxy")){ return; }
             }

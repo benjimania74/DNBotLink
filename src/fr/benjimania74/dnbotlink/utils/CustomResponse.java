@@ -20,7 +20,7 @@ public class CustomResponse extends be.alexandre01.dreamnetwork.api.connection.c
             String service = msg.split(" ")[0];
 
             if(Services.isLaunched(service, IContainer.JVMType.SERVER)){
-                HashMap<String, String> chatLinks = BotConfig.getInstance().getChatLinks();
+                HashMap<Object, Object> chatLinks = BotConfig.getInstance().getChatLinks();
                 if(!chatLinks.isEmpty()){if(chatLinks.containsKey(service)){SendMessage.send(msg.substring(service.length() + 1), chatLinks.get(service));}}
             }
         }

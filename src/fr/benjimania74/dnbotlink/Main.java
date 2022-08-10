@@ -5,12 +5,14 @@ import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
 import be.alexandre01.dreamnetwork.client.console.Console;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import fr.benjimania74.configmanager.Config;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.utils.CustomResponse;
 import fr.benjimania74.dnbotlink.registers.CommandsRegister;
 import fr.benjimania74.dnbotlink.registers.ListenerRegister;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
+import fr.benjimania74.dnbotlink.utils.InstallFile;
 import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
 
 public class Main extends DreamExtension {
@@ -26,6 +28,7 @@ public class Main extends DreamExtension {
 
         addonName = getAddon().getDreamyName();
         addonVersion = getAddon().getVersion();
+        new Config(addonName);
         new FilesManager();
         if(!new BotMain().create()){Console.print("The Bot can't be Started, you will be able to use only the Console's Commands");}
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
@@ -35,6 +38,7 @@ public class Main extends DreamExtension {
     public void start() {
         super.start();
         clientAPI = getDnClientAPI();
+        // InstallFile.installDNPlugin("DNPL.jar");
         if(!CommandsRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the Commands, the Addon will not be able to be used");}
         if(!ListenerRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the listeners, the Addon will not be able to be used correctly");}
 

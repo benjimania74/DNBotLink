@@ -31,7 +31,7 @@ public class Services {
         return false;
     }
 
-    public static boolean isLaunched(String serviceName, IContainer.JVMType serviceType){
+    public static boolean isLaunched(Object serviceName, IContainer.JVMType serviceType){
         if(isClientManagerEmpty()){return false;}
         for(IClient client : clientManager.values()){if(client.getJvmService().getJvmExecutor().getName().equals(serviceName) && client.getJvmType().equals(serviceType)){return true;}}
         return false;
