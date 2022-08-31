@@ -6,13 +6,8 @@ import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import fr.benjimania74.configmanager.Config;
 import fr.benjimania74.configmanager.EncodedConfigManager;
 import fr.benjimania74.dnbotlink.Main;
-import fr.benjimania74.dnbotlink.utils.FilesManager;
 import fr.benjimania74.dnbotlink.utils.Services;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import java.util.Base64;
 import java.util.List;
 
 public class AutoStarterCmd extends Command {

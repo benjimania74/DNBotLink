@@ -1,25 +1,20 @@
 package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.client.console.Console;
+import be.alexandre01.dreamnetwork.client.console.ConsolePath;
 import be.alexandre01.dreamnetwork.client.console.colors.Colors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Enumeration;
 import java.util.Scanner;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public class InstallFile {
     public static boolean install(String file, String url) {
@@ -30,7 +25,7 @@ public class InstallFile {
             conn.getInputStream();
             Console.print(Colors.YELLOW + "Start installation '" + file + "' from '" + url + "'");
             InputStream in = fileURL.openStream();
-            Console.print(Colors.YELLOW + "Downloading of " + (conn.getContentLength() /1000) + "MB");
+            Console.print(Colors.YELLOW + "Downloading of " + (conn.getContentLength() /10000) + "MB");
             Files.copy(in, Paths.get(file), StandardCopyOption.REPLACE_EXISTING);
             Console.print(Colors.YELLOW + "Installation of '" + file + "' finished");
             return true;
@@ -42,15 +37,17 @@ public class InstallFile {
 
     public static boolean installDNPlugin(String file){
         try {
-            ZipFile zf = new ZipFile("DNLauncher.jar");
+            InputStream is = ConsolePath.Main.class.getClassLoader().getResourceAsStream("files/universal/DreamNetwork-Plugin.jar");
 
-            Enumeration<? extends ZipEntry> entries = zf.entries();
-
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                System.out.println(entry);
+            try (OutputStream out = new FileOutputStream(file)) {
+                byte[] buf = new byte[1024];
+                int length;
+                while ((length = is.read(buf)) > 0) {
+                    out.write(buf, 0, length);
+                }
+                out.flush();
+                out.close();
             }
-            System.out.println(zf.getEntry("files/universal/DreamNetwork-Plugin.jar"));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -59,7 +56,17 @@ public class InstallFile {
 
     public static boolean copyLocalFile(String copiedFile, String file){
         try {
-            Files.copy(Paths.get(file), (new File(copiedFile)).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            InputStream is = new FileInputStream(copiedFile);
+
+            try (OutputStream out = new FileOutputStream(file)) {
+                byte[] buf = new byte[1024];
+                int length;
+                while ((length = is.read(buf)) > 0) {
+                    out.write(buf, 0, length);
+                }
+                out.flush();
+                out.close();
+            }
             return true;
         }catch (Exception e){
             e.printStackTrace();

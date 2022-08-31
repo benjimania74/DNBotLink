@@ -27,23 +27,24 @@ public class ServiceAutoStarter {
             return;
         }
 
-        List<String> excuted = new ArrayList<>();
+        List<String> executed = new ArrayList<>();
+        if(object == null || object.isEmpty()){Console.print(Colors.YELLOW + "No Service to Auto-Start");return;}
         Console.print(Colors.YELLOW + "Auto-Starting of Proxy");
         for(IJVMExecutor executor : Main.clientAPI.getContainer().getJVMExecutorsProxy().values()){
             if(Services.isBoth(executor.getName())){
                 if(object.contains(executor.getName() + "<&>proxy")){
                     executor.startServer();
                     Console.print(Colors.GREEN + executor.getName() + " auto-starting");
-                    excuted.add(executor.getName()+"<&>proxy");
+                    executed.add(executor.getName()+"<&>proxy");
                 }
             }else if(object.contains(executor.getName())){
                 executor.startServer();
                 Console.print(Colors.GREEN + executor.getName() + " auto-starting");
-                excuted.add(executor.getName());
+                executed.add(executor.getName());
             }
         }
 
-        excuted.forEach(object::remove);
+        executed.forEach(object::remove);
         if(object.isEmpty()){return;}
 
         int i = 0;
@@ -66,7 +67,7 @@ public class ServiceAutoStarter {
 
     private void save(String toWrite){
         try {
-            FilesManager.getInstance().write("autostartservice", Base64.getEncoder().encodeToString(toWrite.getBytes()));
+            FilesManager.getInstance().write(FilesManager.getInstance().addonPath + "/autostartservice", Base64.getEncoder().encodeToString(toWrite.getBytes()));
             Console.print(Colors.GREEN_BACKGROUND + "The file 'autostartservice' has been saved");
         }catch (Exception e){
             Console.print(Colors.RED_BACKGROUND + "The file can't be saved");

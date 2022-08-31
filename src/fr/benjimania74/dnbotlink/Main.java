@@ -38,7 +38,6 @@ public class Main extends DreamExtension {
     public void start() {
         super.start();
         clientAPI = getDnClientAPI();
-        // InstallFile.installDNPlugin("DNPL.jar");
         if(!CommandsRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the Commands, the Addon will not be able to be used");}
         if(!ListenerRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the listeners, the Addon will not be able to be used correctly");}
 

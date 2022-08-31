@@ -49,7 +49,7 @@ public class FilesManager {
     }
 
     public void write(String fileName, String content) throws IOException {
-        FileWriter fw  = new FileWriter(addonPath + "/" + fileName);
+        FileWriter fw  = new FileWriter(fileName);
         fw.write(content);
         fw.flush();
         fw.close();

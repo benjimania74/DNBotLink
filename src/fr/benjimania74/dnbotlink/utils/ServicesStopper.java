@@ -52,10 +52,6 @@ public class ServicesStopper {
         EmbedBuilder notRunning = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle(StatusMessages.NOT_RUNNING.replace("SERVICE", serviceName));
-        EmbedBuilder allServicesStopped = new EmbedBuilder()
-                .setColor(Color.GREEN)
-                .setTitle("Services Stopped")
-                .setDescription("All Services have been stopped !");
         EmbedBuilder doubleService = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Double Service")
@@ -101,7 +97,8 @@ public class ServicesStopper {
             }
             return incorrectST.setDescription(serviceName + " is not a Proxy");
         }
-        return innexistantService;
+
+        return incorrectST.setDescription(serviceI[1] + " is not a Service Type");
     }
 
     private void stopServer(@NotNull IJVMExecutor executor){executor.getService(0).stop();}
